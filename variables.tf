@@ -18,28 +18,28 @@ variable "secret" {
 variable "secret" {
   description = "The secret resource (the `aws_secretsmanager_secret` resource itself) that you'd like to get the replica data for."
   type = object({
-    arn         = string
-    name        = string
-    kms_key_id  = string
     description = string
+    kms_key_id  = string
+    name_prefix = string
+    name        = string
+    arn         = string
+    id          = string
     replica = list(object({
-      kms_key_id     = string
-      region         = string
-      status         = string
-      status_message = string
+      kms_key_id         = string
+      region             = string
+      last_accessed_date = string
+      status             = string
+      status_message     = string
     }))
-    rotation_enabled = bool
-    tags             = map(string)
-    tags_all         = map(string)
+    tags     = map(string)
+    tags_all = map(string)
   })
-  validation {
-    condition     = var.secret != null
-    error_message = "The `secret` variable cannot be null."
-  }
+  nullable = false
 }
 
 variable "include_original" {
   description = "Whether to include the original secret (the one which is replicated) in the output."
   type        = bool
   default     = true
+  nullable    = false
 }
